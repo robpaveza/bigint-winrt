@@ -159,6 +159,28 @@ BigInt^ BigInt::Negate()
     return ref new BigInt(result);
 }
 
+BigInt^ BigInt::Xor(BigInt^ operand)
+{
+    if (actual_.getLength() != operand->actual_.getLength())
+        throw ref new InvalidArgumentException(L"For XOR, integers must be of the same byte length.");
+
+    uint32 len = actual_.getLength();
+    unsigned long* pMem = (unsigned long*)::CoTaskMemAlloc(len * 4);
+    if (pMem == nullptr)
+    {
+        throw ref new OutOfMemoryException();
+    }
+
+    for (uint32 index = 0; index < len; index++)
+    {
+        pMem[index] = actual_.getBlock(index) ^ operand->actual_.getBlock(index);
+    }
+
+    BigInteger result(pMem, len);
+
+    return ref new BigInt(result);
+}
+
 BigInt^ BigInt::ModPow(BigInt^ exponent, BigInt^ modulus)
 {
     auto result = modexp(actual_, exponent->actual_.getMagnitude(), modulus->actual_.getMagnitude());

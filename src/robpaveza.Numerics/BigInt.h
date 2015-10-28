@@ -49,6 +49,7 @@ namespace robpaveza
             BigInt^ Divide(BigInt^ dividend);
             BigInt^ Modulus(BigInt^ dividend);
             BigInt^ Negate();
+            BigInt^ Xor(BigInt^ operand);
 
             BigInt^ ModPow(BigInt^ exponent, BigInt^ modulus);
             BigInt^ ModInv(BigInt^ modulus);
